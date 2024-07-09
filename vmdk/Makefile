@@ -32,7 +32,9 @@ OBJS_FUSE := $(addprefix $(OUTPUTDIR)/, $(SRC_FUSE:%.c=%.o))
 
 default: all
 
-all: $(EXE) $(EXE_FUSE)
+fuse: all $(EXE_FUSE)
+
+all: $(EXE)
 
 $(EXE): $(OBJS) $(OUTPUTDIR)
 	$(CC) -o $@ $(OBJS) $(LDFLAGS)
@@ -57,7 +59,10 @@ check:
 	sparse -Wsparse-all -I/usr/include/x86_64-linux-gnu $(SRC)
 
 install:
-	mkdir -p $(DESTDIR)/$(PREFIX)/bin && cp $(EXE) $(EXE_FUSE) $(DESTDIR)/$(PREFIX)/bin/
+	mkdir -p $(DESTDIR)/$(PREFIX)/bin && cp $(EXE) $(DESTDIR)/$(PREFIX)/bin/
+
+install-fuse:
+	mkdir -p $(DESTDIR)/$(PREFIX)/bin && cp $(EXE_FUSE) $(DESTDIR)/$(PREFIX)/bin/
 
 clean:
 	rm -rf $(OUTPUTDIR)
